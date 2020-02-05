@@ -6,6 +6,7 @@ const helper = require("../../utils/helper");
 const path = require("../../utils/path");
 const parsedSchema = require("./parsed");
 const dereferencedSchema = require("./dereferenced");
+const { StoplightParserError } = require("../../../lib/util/errors");
 
 describe("References to non-JSON files", () => {
   it("should parse successfully", async () => {
@@ -70,7 +71,7 @@ describe("References to non-JSON files", () => {
       helper.shouldNotGetCalled();
     }
     catch (err) {
-      expect(err).to.be.an.instanceOf(SyntaxError);
+      expect(err).to.be.an.instanceOf(StoplightParserError);
       expect(err.message).to.contain("Error parsing ");
     }
   });
