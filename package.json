@@ -68,6 +68,8 @@
     "version-bump-prompt": "^5.0.7"
   },
   "dependencies": {
+    "@stoplight/json": "^3.4.0",
+    "@stoplight/yaml": "^3.5.0",
     "call-me-maybe": "^1.0.1",
     "js-yaml": "^3.13.1",
     "ono": "^6.0.0"
