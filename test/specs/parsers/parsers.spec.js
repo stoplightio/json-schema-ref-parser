@@ -82,7 +82,10 @@ describe("References to non-JSON files", () => {
         staticParser: {
           order: 201,
           canParse: true,
-          parse: "The quick brown fox jumped over the lazy dog"
+          parse: {
+            errors: null,
+            data: "The quick brown fox jumped over the lazy dog"
+          }
         }
       }
     });
@@ -98,7 +101,10 @@ describe("References to non-JSON files", () => {
             return file.url.substr(-4) === ".foo";
           },
           parse (file) {
-            return file.data.toString().split("").reverse().join("");
+            return {
+              errors: null,
+              data: file.data.toString().split("").reverse().join(""),
+            };
           }
         }
       }
@@ -115,7 +121,10 @@ describe("References to non-JSON files", () => {
           canParse: /\.FOO$/i,
           parse (file, callback) {
             let reversed = file.data.toString().split("").reverse().join("");
-            callback(null, reversed);
+            callback(null, {
+              errors: null,
+              data: reversed,
+            });
           }
         }
       }
@@ -134,7 +143,10 @@ describe("References to non-JSON files", () => {
             let reversed = await new Promise((resolve) => {
               resolve(file.data.toString().split("").reverse().join(""));
             });
-            return reversed;
+            return {
+              errors: null,
+              data: reversed,
+            };
           }
         }
       }
@@ -152,7 +164,10 @@ describe("References to non-JSON files", () => {
           order: 1,
           canParse: /\.(md|html|css|png)$/i,
           parse (file, callback) {
-            callback("BOMB!!!");
+            callback({
+              errors: null,
+              data: "BOMB!!!",
+            });
           }
         }
       }

@@ -39,17 +39,4 @@ describe("Empty schema", () => {
     expect(parser.schema).to.equal(schema);
     expect(parser.$refs.paths()).to.deep.equal([path.abs("specs/empty/empty.json")]);
   });
-
-  it('should throw an error if "parse.json.allowEmpty" is disabled', async () => {
-    try {
-      await $RefParser.parse(path.rel("specs/empty/empty.json"), { parse: { json: { allowEmpty: false }}});
-      helper.shouldNotGetCalled();
-    }
-    catch (err) {
-      expect(err).to.be.an.instanceOf(SyntaxError);
-      expect(err.message).to.contain("Error parsing ");
-      expect(err.message).to.contain('empty/empty.json"');
-      expect(err.message).to.contain("Parsed value is empty");
-    }
-  });
 });

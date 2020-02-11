@@ -287,13 +287,6 @@ declare namespace $RefParser {
     order?: number
 
     /**
-     * All of the built-in parsers allow empty files by default. The JSON and YAML parsers will parse empty files as `undefined`. The text parser will parse empty files as an empty string. The binary parser will parse empty files as an empty byte array.
-     *
-     * You can set `allowEmpty: false` on any parser, which will cause an error to be thrown if a file empty.
-     */
-    allowEmpty?: boolean
-
-    /**
      * Determines which parsers will be used for which files.
      *
      * A regular expression can be used to match files by their full path. A string (or array of strings) can be used to match files by their file extension. Or a function can be used to perform more complex matching logic. See the custom parser docs for details.
