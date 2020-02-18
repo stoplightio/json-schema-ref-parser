@@ -132,12 +132,12 @@ describe("YAML object", () => {
 
     it("should stringify a string", async () => {
       let yaml = $RefParser.YAML.stringify("hello, world");
-      expect(yaml).to.equal("'hello, world'");
+      expect(yaml).to.equal("hello, world");
     });
 
     it("should stringify a number", async () => {
       let yaml = $RefParser.YAML.stringify(42);
-      expect(yaml).to.equal("42");
+      expect(yaml).to.equal("42\n");
     });
   });
 });
