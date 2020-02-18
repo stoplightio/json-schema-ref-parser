@@ -16,9 +16,12 @@ let myParser = {
 
   parse(file) {
     let lines = file.data.toString().split("\n");
-    return lines.map((line) => {
-      return line.split(",");
-    });
+    return {
+      errors: null,
+      data: lines.map((line) => {
+        return line.split(",");
+      }),
+    };
   }
 };
 
@@ -62,17 +65,34 @@ Obviously, this is where the real work of a parser happens.  The `parse` method 
 Unlike the `canParse` function, the `parse` method can also be asynchronous. This might be important if your parser needs to retrieve data from a database or if it relies on an external HTTP service to return the parsed value.  You can return your asynchronous value via a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) or a Node.js-style error-first callback.  Here are examples of both approaches:
 
 ```javascript
+import { DiagnosticSeverity } from "@stoplight/types";
+
 let myCallbackParser = {
   // Return the value in a callback function
   parse(file, callback) {
     doSomethingAsync(file.data, (data) => {
       if (data) {
         // Success !
-        callback(null, data);
+        callback(null, {
+          errors: null,
+          data
+        });
       }
       else {
         // Error !
-        callback(new Error("No data!"));
+        callback({
+          data: null,
+          errors: [{
+            code: "empty-text",
+            source: "parser",
+            message: "No data!",
+            severity: DiagnosticSeverity.Error,
+            range: {
+              start: { character: 0, line: 0 },
+              end: { character: 0, line: 0 }
+            }
+          }]
+        });
       }
     });
   }
@@ -85,11 +105,26 @@ let myPromiseParser = {
 
     if (data) {
       // Success !
-      return data;
+      return {
+        errors: null,
+        data
+      };
     }
     else {
       // Error !
-      throw new Error("No data!");
+      return {
+        errors: [{
+          code: "empty-text",
+          source: "parser",
+          message: "No data!",
+          severity: DiagnosticSeverity.Error,
+          range: {
+            start: { character: 0, line: 0 },
+            end: { character: 0, line: 0 }
+          }
+        }],
+        data: null
+      };
     }
   }
 };
