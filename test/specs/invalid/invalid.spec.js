@@ -26,8 +26,8 @@ describe("Invalid syntax", () => {
       return expect($RefParser.dereference(path.rel("specs/invalid/invalid.json"), { parse: { yaml: false }})).to.eventually.deep.equal({});
     });
 
-    it("should throw an error for an invalid YAML file with JSON and YAML disabled", () => {
-      return expect($RefParser.dereference(path.rel("specs/invalid/invalid.json"), { parse: { yaml: false, json: false }})).to.eventually.rejectedWith(SyntaxError, " is not a valid JSON Schema");
+    it("should not throw an error for an invalid YAML file with JSON and YAML disabled", () => {
+      return expect($RefParser.dereference(path.rel("specs/invalid/invalid.json"), { parse: { yaml: false, json: false }})).to.eventually.null;
     });
   });
 

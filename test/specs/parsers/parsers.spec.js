@@ -64,15 +64,17 @@ describe("References to non-JSON files", () => {
     expect(schema).to.deep.equal(dereferencedSchema.binaryParser);
   });
 
-  it('should throw an error if "parse.text" and "parse.binary" are disabled', async () => {
-    try {
-      await $RefParser.dereference(path.rel("specs/parsers/parsers.yaml"), { parse: { text: false, binary: false }});
-      helper.shouldNotGetCalled();
-    }
-    catch (err) {
-      expect(err).to.be.an.instanceOf(SyntaxError);
-      expect(err.message).to.contain("Error parsing ");
-    }
+  it('should not throw an error if "parse.text" and "parse.binary" are disabled', () => {
+    return expect($RefParser.dereference(path.rel("specs/parsers/parsers.yaml"), { parse: { text: false, binary: false }})).to.eventually.deep.equal({
+      definitions: {
+        binary: undefined,
+        css: {},
+        empty: undefined,
+        html: "en",
+        markdown: undefined,
+        unknown: undefined,
+      }
+    });
   });
 
   it("should use a custom parser with static values", async () => {
