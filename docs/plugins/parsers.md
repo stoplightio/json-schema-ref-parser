@@ -83,8 +83,8 @@ let myCallbackParser = {
         callback({
           data: null,
           errors: [{
-            code: "empty-text",
-            source: "parser",
+            code: "parser",
+            source: file.url,
             message: "No data!",
             severity: DiagnosticSeverity.Error,
             range: {
@@ -114,8 +114,8 @@ let myPromiseParser = {
       // Error !
       return {
         errors: [{
-          code: "empty-text",
-          source: "parser",
+          code: "parser",
+          source: file.url,
           message: "No data!",
           severity: DiagnosticSeverity.Error,
           range: {
