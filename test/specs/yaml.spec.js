@@ -18,17 +18,15 @@ describe("YAML object", () => {
         "    type: number"
       );
 
-      expect(obj).to.deep.equal({
-        errors: [],
-        data: { title: "person",
-          required: ["name", "age"],
-          properties: {
-            name: {
-              type: "string"
-            },
-            age: {
-              type: "number"
-            }
+      expect(obj).to.have.property("data").that.deep.equal({
+        title: "person",
+        required: ["name", "age"],
+        properties: {
+          name: {
+            type: "string"
+          },
+          age: {
+            type: "number"
           }
         }
       });
@@ -36,15 +34,12 @@ describe("YAML object", () => {
 
     it("should parse a string", async () => {
       let str = $RefParser.YAML.parse("hello, world");
-      expect(str).to.deep.equal({
-        errors: [],
-        data: "hello, world"
-      });
+      expect(str).to.have.property("data", "hello, world");
     });
 
     it("should parse a number", async () => {
       let str = $RefParser.YAML.parse("42");
-      expect(str.data).to.be.a("number").equal(42);
+      expect(str).to.have.property("data").that.is.a("number").and.equal(42);
     });
   });
 

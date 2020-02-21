@@ -24,6 +24,45 @@ describe("Blank files", () => {
     host.global.onerror = windowOnError;
   });
 
+  describe("main file", () => {
+    it("should throw an error for a blank YAML file", async () => {
+      try {
+        await $RefParser.parse(path.rel("specs/blank/files/blank.yaml"));
+        helper.shouldNotGetCalled();
+      }
+      catch (err) {
+        expect(err).to.be.an.instanceOf(SyntaxError);
+        expect(err.message).to.contain("blank/files/blank.yaml");
+        expect(err.message).to.contain("is not a valid JSON Schema");
+      }
+    });
+
+    it('should throw a different error if "parse.yaml.allowEmpty" is disabled', async () => {
+      try {
+        await $RefParser.parse(path.rel("specs/blank/files/blank.yaml"), { parse: { yaml: { allowEmpty: false }}});
+        helper.shouldNotGetCalled();
+      }
+      catch (err) {
+        expect(err).to.be.an.instanceOf(SyntaxError);
+        expect(err.message).to.contain("Error parsing ");
+        expect(err.message).to.contain("blank/files/blank.yaml");
+        expect(err.message).to.contain("Parsed value is empty");
+      }
+    });
+
+    it("should throw an error for a blank JSON file", async () => {
+      try {
+        await $RefParser.parse(path.rel("specs/blank/files/blank.json"), { parse: { json: { allowEmpty: false }}});
+        helper.shouldNotGetCalled();
+      }
+      catch (err) {
+        expect(err).to.be.an.instanceOf(SyntaxError);
+        expect(err.message).to.contain("Error parsing ");
+        expect(err.message).to.contain("blank/files/blank.json");
+      }
+    });
+  });
+
   describe("referenced files", () => {
     it("should parse successfully", async () => {
       let schema = await $RefParser.parse(path.rel("specs/blank/blank.yaml"));
@@ -50,6 +89,19 @@ describe("Blank files", () => {
       let schema = await $RefParser.bundle(path.rel("specs/blank/blank.yaml"));
       schema.binary = helper.convertNodeBuffersToPOJOs(schema.binary);
       expect(schema).to.deep.equal(dereferencedSchema);
+    });
+
+    it('should throw an error if "allowEmpty" is disabled', async () => {
+      try {
+        await $RefParser.dereference(path.rel("specs/blank/blank.yaml"), { parse: { binary: { allowEmpty: false }}});
+        helper.shouldNotGetCalled();
+      }
+      catch (err) {
+        expect(err).to.be.an.instanceOf(SyntaxError);
+        expect(err.message).to.contain("Error parsing ");
+        expect(err.message).to.contain("blank/files/blank.png");
+        expect(err.message).to.contain("Parsed value is empty");
+      }
     });
   });
 });

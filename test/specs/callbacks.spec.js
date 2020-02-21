@@ -40,9 +40,9 @@ describe("Callback & Promise syntax", () => {
 
   function testCallbackError (method) {
     return function (done) {
-      $RefParser[method]("foo-bar-baz does not exist", (err, result) => {
+      $RefParser[method](path.rel("specs/invalid/invalid.yaml"), (err, result) => {
         try {
-          expect(err).to.be.an.instanceOf(Error);
+          expect(err).to.be.an.instanceOf(SyntaxError);
           expect(result).to.be.undefined;
           done();
         }
@@ -72,10 +72,10 @@ describe("Callback & Promise syntax", () => {
 
   function testPromiseError (method) {
     return function () {
-      return $RefParser[method]("foo-bar-baz does not exist")
+      return $RefParser[method](path.rel("specs/invalid/invalid.yaml"))
         .then(helper.shouldNotGetCalled)
         .catch((err) => {
-          expect(err).to.be.an.instanceOf(Error);
+          expect(err).to.be.an.instanceOf(SyntaxError);
         });
     };
   }

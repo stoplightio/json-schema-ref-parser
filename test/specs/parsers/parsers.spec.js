@@ -64,17 +64,15 @@ describe("References to non-JSON files", () => {
     expect(schema).to.deep.equal(dereferencedSchema.binaryParser);
   });
 
-  it('should not throw an error if "parse.text" and "parse.binary" are disabled', () => {
-    return expect($RefParser.dereference(path.rel("specs/parsers/parsers.yaml"), { parse: { text: false, binary: false }})).to.eventually.deep.equal({
-      definitions: {
-        binary: undefined,
-        css: {},
-        empty: undefined,
-        html: "en",
-        markdown: undefined,
-        unknown: undefined,
-      }
-    });
+  it('should throw an error if "parse.text" and "parse.binary" are disabled', async () => {
+    try {
+      await $RefParser.dereference(path.rel("specs/parsers/parsers.yaml"), { parse: { text: false, binary: false }});
+      helper.shouldNotGetCalled();
+    }
+    catch (err) {
+      expect(err).to.be.an.instanceOf(SyntaxError);
+      expect(err.message).to.contain("Error parsing ");
+    }
   });
 
   it("should use a custom parser with static values", async () => {
@@ -84,10 +82,7 @@ describe("References to non-JSON files", () => {
         staticParser: {
           order: 201,
           canParse: true,
-          parse: {
-            errors: null,
-            data: "The quick brown fox jumped over the lazy dog"
-          }
+          parse: "The quick brown fox jumped over the lazy dog"
         }
       }
     });
@@ -103,10 +98,7 @@ describe("References to non-JSON files", () => {
             return file.url.substr(-4) === ".foo";
           },
           parse (file) {
-            return {
-              errors: null,
-              data: file.data.toString().split("").reverse().join(""),
-            };
+            return file.data.toString().split("").reverse().join("");
           }
         }
       }
@@ -123,10 +115,7 @@ describe("References to non-JSON files", () => {
           canParse: /\.FOO$/i,
           parse (file, callback) {
             let reversed = file.data.toString().split("").reverse().join("");
-            callback(null, {
-              errors: null,
-              data: reversed,
-            });
+            callback(null, reversed);
           }
         }
       }
@@ -145,10 +134,7 @@ describe("References to non-JSON files", () => {
             let reversed = await new Promise((resolve) => {
               resolve(file.data.toString().split("").reverse().join(""));
             });
-            return {
-              errors: null,
-              data: reversed,
-            };
+            return reversed;
           }
         }
       }
@@ -166,10 +152,7 @@ describe("References to non-JSON files", () => {
           order: 1,
           canParse: /\.(md|html|css|png)$/i,
           parse (file, callback) {
-            callback({
-              errors: null,
-              data: "BOMB!!!",
-            });
+            callback("BOMB!!!");
           }
         }
       }
