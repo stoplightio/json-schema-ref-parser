@@ -6,6 +6,7 @@ This is the default export of JSON Schema $Ref Parser.  You can creates instance
 ##### Properties
 - [`schema`](#schema)
 - [`$refs`](#refs)
+- [`errors`](#errors)
 
 ##### Methods
 - [`dereference()`](#dereferenceschema-options-callback)
@@ -40,6 +41,14 @@ parser.$refs.paths();           // => [] empty array
 
 await parser.dereference("my-schema.json");
 parser.$refs.paths();       // => ["my-schema.json"]
+```
+
+### `errors`
+The `errors` property contains all list of errors that occurred during the bundling/resolving/dereferencing process.
+All errors share error properties:
+- path - json path to the document property. Empty in case of resolving or certain parsing errors.
+- message
+- source - the uri of document that caused the error 
 ```
 
 
