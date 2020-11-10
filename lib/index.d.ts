@@ -230,6 +230,12 @@ declare namespace $RefParser {
        * If set to `"ignore"`, then circular references will simply be ignored. No error will be thrown, but the `$Refs.circular` property will still be set to `true`.
        */
       circular?: boolean | 'ignore'
+    },
+
+    bundle?: {
+      generateKey?(value: unknown, file: string, hash: string | null): string | null;
+      shouldInline?(pathFromRoot): boolean;
+      defaultRoot?: string;
     }
   }
 
