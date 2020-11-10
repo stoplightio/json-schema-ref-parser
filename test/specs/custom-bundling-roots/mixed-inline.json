@@ -13,6 +13,13 @@
             "schema": {
               "$ref": "./reference/parameters/id.json"
             }
+          },
+          "400": {
+            "schema": {
+              "foo": {
+                "$ref": "./reference/parameters/id.json#/type"
+              }
+            }
           }
         }
       }

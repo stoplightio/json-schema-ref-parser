@@ -114,6 +114,10 @@ describe("Custom bundling roots", () => {
           }
 
           if (hash !== "#" && hash !== null) {
+            if (!suggestions.isInRoot(hash)) {
+              return suggestions.getExistingSuggestion(file) + hash.slice(1);
+            }
+
             return suggestions.suggestNameForPointer(schema, suggestions.getExistingSuggestion(file) + hash.slice(1));
           }
 
@@ -135,7 +139,7 @@ describe("Custom bundling roots", () => {
           name: "id",
           required: true,
           type: "number"
-        }
+        },
       },
       paths: {
         "/flight/{id}": {
@@ -144,6 +148,13 @@ describe("Custom bundling roots", () => {
               200: {
                 schema: {
                   $ref: "#/definitions/Id"
+                }
+              },
+              400: {
+                schema: {
+                  foo: {
+                    $ref: "#/definitions/Id/type"
+                  }
                 }
               }
             }
