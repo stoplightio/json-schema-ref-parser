@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   openapi: "3.0",
   info: {
