@@ -50,6 +50,41 @@ module.exports = {
     }
   },
   definitions: {
+    Airport: {
+      definitions: {},
+      properties: {
+        id: {
+          type: "number"
+        },
+        name: {
+          $ref: "#/definitions/Airport_Name"
+        }
+      },
+      title: "Airport",
+      type: "object"
+    },
+    Airport_m123: {
+      definitions: {},
+      properties: {
+        name: {
+          $ref: "#/definitions/Airport_m123_Name"
+        }
+      },
+      title: "Airport",
+      type: "object"
+    },
+    Airport_Name: {
+      example: "JFK",
+      maxLength: 50,
+      minLength: 2,
+      type: "string"
+    },
+    Airport_m123_Name: {
+      example: "JFK",
+      maxLength: 50,
+      minLength: 2,
+      type: "string"
+    },
     Flight: {
       title: "Flight",
       type: "object",
@@ -68,41 +103,10 @@ module.exports = {
           $ref: "#/definitions/Airplane.v1"
         },
         airport: {
-          definitions: {
-            Name: {
-              example: "JFK",
-              maxLength: 50,
-              minLength: 2,
-              type: "string"
-            }
-          },
-          properties: {
-            id: {
-              type: "number"
-            },
-            name: {
-              $ref: "#/definitions/Flight_2/properties/airport/definitions/Name"
-            }
-          },
-          title: "Airport",
-          type: "object",
+          "$ref": "#/definitions/Airport"
         },
         airport_masked: {
-          definitions: {
-            Name: {
-              example: "JFK",
-              maxLength: 50,
-              minLength: 2,
-              type: "string"
-            }
-          },
-          properties: {
-            name: {
-              $ref: "#/definitions/Flight_2/properties/airport_masked/definitions/Name"
-            },
-          },
-          title: "Airport",
-          type: "object"
+          "$ref": "#/definitions/Airport_m123"
         },
         pilot: {
           $ref: "#/definitions/User"

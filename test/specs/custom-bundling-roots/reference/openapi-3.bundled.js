@@ -63,6 +63,41 @@ module.exports = {
   },
   components: {
     schemas: {
+      Airport: {
+        definitions: {},
+        properties: {
+          id: {
+            type: "number"
+          },
+          name: {
+            $ref: "#/components/schemas/Airport_Name"
+          }
+        },
+        title: "Airport",
+        type: "object"
+      },
+      Airport_m123: {
+        definitions: {},
+        properties: {
+          name: {
+            $ref: "#/components/schemas/Airport_m123_Name"
+          }
+        },
+        title: "Airport",
+        type: "object"
+      },
+      Airport_Name: {
+        example: "JFK",
+        maxLength: 50,
+        minLength: 2,
+        type: "string"
+      },
+      Airport_m123_Name: {
+        example: "JFK",
+        maxLength: 50,
+        minLength: 2,
+        type: "string"
+      },
       Flight: {
         title: "Flight",
         type: "object",
@@ -81,41 +116,10 @@ module.exports = {
             $ref: "#/components/schemas/Airplane.v1"
           },
           airport: {
-            definitions: {
-              Name: {
-                example: "JFK",
-                maxLength: 50,
-                minLength: 2,
-                type: "string"
-              }
-            },
-            properties: {
-              id: {
-                type: "number"
-              },
-              name: {
-                $ref: "#/components/schemas/Flight_2/properties/airport/definitions/Name"
-              }
-            },
-            title: "Airport",
-            type: "object",
+            $ref: "#/components/schemas/Airport"
           },
           airport_masked: {
-            definitions: {
-              Name: {
-                example: "JFK",
-                maxLength: 50,
-                minLength: 2,
-                type: "string"
-              }
-            },
-            properties: {
-              name: {
-                $ref: "#/components/schemas/Flight_2/properties/airport_masked/definitions/Name"
-              },
-            },
-            title: "Airport",
-            type: "object"
+            $ref: "#/components/schemas/Airport_m123"
           },
           pilot: {
             $ref: "#/components/schemas/User"
