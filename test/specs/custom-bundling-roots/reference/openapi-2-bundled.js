@@ -65,7 +65,7 @@ module.exports = {
     Flight_2: {
       properties: {
         airplane: {
-          $ref: "#/definitions/Airplane_V1"
+          $ref: "#/definitions/Airplane.v1"
         },
         airport: {
           definitions: {
@@ -129,13 +129,13 @@ module.exports = {
       minLength: 2,
       maxLength: 20
     },
-    Airplane_V1: {
+    'Airplane.v1': {
       definitions: {},
       title: "Airplane",
       type: "object",
       properties: {
         name: {
-          $ref: "#/definitions/Airplane_V1_Name"
+          $ref: "#/definitions/Airplane.v1_Name"
         },
         repairman: {
           $ref: "#/definitions/User"
@@ -145,7 +145,7 @@ module.exports = {
         }
       }
     },
-    Airplane_V1_Name: {
+    'Airplane.v1_Name': {
       type: "string",
       minLength: 1,
       maxLength: 100,
