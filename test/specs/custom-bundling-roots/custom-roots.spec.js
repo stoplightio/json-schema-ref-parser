@@ -226,4 +226,59 @@ describe("Custom bundling roots", () => {
       }
     });
   });
+
+  it("should append mid to the key", async () => {
+    nock("http://localhost:8080")
+      .get("/api/nodes.raw/")
+      .query({
+        srn: "gh/stoplightio/test/Book.v1.yaml",
+        mid: "2",
+      })
+      .reply(200, {
+        properties: {
+          id: {
+            type: "string"
+          }
+        }
+
+      });
+
+    const model = {
+      properties: {
+        id: {
+          type: "string"
+        },
+        book: {
+          $ref: "http://localhost:8080/api/nodes.raw/?srn=gh/stoplightio/test/Book.v1.yaml&mid=2"
+        }
+      }
+    };
+
+    let parser = new $RefParser();
+
+    const schema = await parser.bundle(model, {
+      bundle: getDefaultsForOldJsonSchema(),
+    });
+
+    expect(schema).to.equal(parser.schema);
+    expect(schema).to.deep.equal({
+      definitions: {
+        "Book.v1_m2": {
+          properties: {
+            id: {
+              type: "string"
+            }
+          }
+        }
+      },
+      properties: {
+        book: {
+          $ref: "#/definitions/Book.v1_m2"
+        },
+        id: {
+          type: "string"
+        }
+      }
+    });
+  });
 });
