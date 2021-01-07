@@ -11,7 +11,10 @@ module.exports = function (mocks) {
   for (const [url, body] of Object.entries(mocks)) {
     const { origin, pathname, searchParams } = new URL(url);
 
-    const query = Object.fromEntries(searchParams.entries());
+    const query = {};
+    for (const [key, val] of searchParams.entries()) {
+      query[key] = val;
+    }
 
     let scope = nock(origin)
       .persist(true);
