@@ -177,6 +177,61 @@ describe("Custom bundling roots", () => {
     });
   });
 
+  it("given arbitrary URL, should not attempt to generate pretty key", async () => {
+    let defaults = createStoplightDefaults({
+      cwd: __dirname,
+      endpointUrl: "http://localhost:8080/api/nodes.raw/",
+      srn: "gh/stoplightio/test"
+    });
+
+    setupHttpMocks({
+      "http://baz.com": {
+        foo: {
+          title: "foo"
+        },
+        bar: {
+          title: "bar",
+        }
+      }
+    });
+
+    const model = {
+      baz: {
+        $ref: "http://baz.com"
+      },
+      foo: {
+        $ref: "http://baz.com#/bar"
+      },
+      bar: {
+        $ref: "http://baz.com#/bar"
+      },
+    };
+
+    let parser = new $RefParser();
+
+    const schema = await parser.bundle(__dirname, model, {
+      bundle: defaults.json_schema,
+    });
+
+    expect(schema).to.equal(parser.schema);
+    expect(schema).to.deep.equal({
+      bar: {
+        $ref: "#/baz/bar"
+      },
+      baz: {
+        bar: {
+          title: "bar"
+        },
+        foo: {
+          title: "foo"
+        }
+      },
+      foo: {
+        $ref: "#/baz/bar"
+      }
+    });
+  });
+
   describe("Stoplight-specific defaults", () => {
     describe("reference files", () => {
       let defaults;
