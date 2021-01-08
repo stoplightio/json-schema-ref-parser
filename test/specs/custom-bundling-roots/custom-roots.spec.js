@@ -8,6 +8,8 @@ const setupHttpMocks = require("../../utils/setup-http-mocks");
 const { getDefaultsForOldJsonSchema, getDefaultsForOAS2 } = require("../../../lib/bundle/defaults");
 const createStoplightDefaults = require("../../../lib/bundle/stoplight-defaults");
 
+const cwd = typeof window === "object" ? location.origin + "/base/test/specs/custom-bundling-roots" : __dirname;
+
 describe("Custom bundling roots", () => {
   it("mixed inline", async () => {
     let parser = new $RefParser();
@@ -179,7 +181,7 @@ describe("Custom bundling roots", () => {
 
   it("given arbitrary URL, should not attempt to generate pretty key", async () => {
     let defaults = createStoplightDefaults({
-      cwd: __dirname,
+      cwd,
       endpointUrl: "http://localhost:8080/api/nodes.raw/",
       srn: "gh/stoplightio/test"
     });
@@ -242,7 +244,7 @@ describe("Custom bundling roots", () => {
         });
 
         defaults = createStoplightDefaults({
-          cwd: __dirname,
+          cwd,
           endpointUrl: "http://localhost:8080/api/nodes.raw/",
           srn: "gh/stoplightio/test"
         });
@@ -273,7 +275,7 @@ describe("Custom bundling roots", () => {
 
     it("given no collision, should not append mid to the key", async () => {
       let defaults = createStoplightDefaults({
-        cwd: __dirname,
+        cwd,
         endpointUrl: "http://localhost:8080/api/nodes.raw/",
         srn: "gh/stoplightio/test"
       });
@@ -329,7 +331,7 @@ describe("Custom bundling roots", () => {
 
     it("given collision, should append mid to the key", async () => {
       let defaults = createStoplightDefaults({
-        cwd: __dirname,
+        cwd,
         endpointUrl: "http://localhost:8080/api/nodes.raw/",
         srn: "gh/stoplightio/test"
       });
@@ -407,7 +409,7 @@ describe("Custom bundling roots", () => {
 
     it("should recognize v1 & v2 references", async () => {
       let defaults = createStoplightDefaults({
-        cwd: __dirname,
+        cwd,
         endpointUrl: "https://example.com/api/nodes.raw/",
         srn: "org/proj/data-model-dictionary"
       });
