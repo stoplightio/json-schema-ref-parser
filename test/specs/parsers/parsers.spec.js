@@ -120,7 +120,7 @@ describe("References to non-JSON files", () => {
             return file.url.substr(-4) === ".foo";
           },
           parse (file) {
-            return file.data.toString().split("").reverse().join("");
+            return new TextDecoder().decode(file.data).split("").reverse().join("");
           }
         }
       }
@@ -136,7 +136,7 @@ describe("References to non-JSON files", () => {
         reverseFooParser: {
           canParse: /\.FOO$/i,
           parse (file, callback) {
-            let reversed = file.data.toString().split("").reverse().join("");
+            let reversed = new TextDecoder().decode(file.data).split("").reverse().join("");
             callback(null, reversed);
           }
         }
@@ -154,7 +154,7 @@ describe("References to non-JSON files", () => {
           canParse: [".foo"],
           async parse (file) {
             let reversed = await new Promise((resolve) => {
-              resolve(file.data.toString().split("").reverse().join(""));
+              resolve(new TextDecoder().decode(file.data).split("").reverse().join(""));
             });
             return reversed;
           }
@@ -202,7 +202,7 @@ describe("References to non-JSON files", () => {
     catch (err) {
       expect(err).to.be.instanceof(ParserError);
       expect(err.message).to.contain("Error parsing");
-      expect(err.message).to.contain("arsers/parsers.yaml: Woops");
+      expect(err.message).to.contain("parsers/parsers.yaml: Woops");
     }
   });
 
