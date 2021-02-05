@@ -208,6 +208,57 @@ describe("Custom bundling roots", () => {
     });
   });
 
+  it("scoped comes before full first", async () => {
+    let parser = new $RefParser();
+
+    const schema = await parser.bundle(path.rel("specs/custom-bundling-roots/n"), {
+      properties: {
+        foo: {
+          $ref: "./shared.json#/definitions/foo"
+        },
+        all: {
+          $ref: "./shared.json#"
+        },
+        bar: {
+          $ref: "./shared.json#/definitions/bar"
+        }
+      }
+    }, {
+      bundle: getDefaultsForOldJsonSchema(),
+    });
+
+    expect(schema).to.equal(parser.schema);
+    expect(schema).to.deep.equal({
+      definitions: {
+        Shared: {
+          definitions: {
+            baz: {
+              title: "Baz"
+            }
+          }
+        },
+        Shared_Bar: {
+          title: "Bar"
+        },
+        Shared_Foo: {
+          title: "Foo"
+        }
+      },
+      properties: {
+        foo: {
+          $ref: "#/definitions/Shared_Foo"
+        },
+        all: {
+          $ref: "#/definitions/Shared"
+        },
+        bar: {
+          $ref: "#/definitions/Shared_Bar"
+        }
+
+      }
+    });
+  });
+
   it("should handle $refs whose parents were remapped", async () => {
     setupHttpMocks({
       "http://localhost:8080/api/nodes.raw?srn=gh/stoplightio/test/Book.v1.yaml": {
@@ -327,7 +378,7 @@ describe("Custom bundling roots", () => {
     });
   });
 
-  it("given arbitrary URL, should not attempt to generate pretty key", async () => {
+  it("given arbitrary URL with no clear filepath within, should not attempt to generate pretty key", async () => {
     setupHttpMocks({
       "http://baz.com": {
         foo: {
@@ -372,6 +423,58 @@ describe("Custom bundling roots", () => {
       },
       foo: {
         $ref: "#/baz/bar"
+      }
+    });
+  });
+
+  it("given arbitrary URL with filepath within, should attempt to generate pretty key", async () => {
+    setupHttpMocks({
+      "http://baz.com/api/nodes/test.json": {
+        definitions: {
+          foo: {
+            title: "foo"
+          },
+          bar: {
+            title: "bar",
+          }
+        }
+      }
+    });
+
+    const model = {
+      baz: {
+        $ref: "http://baz.com/api/nodes/test.json#"
+      },
+      bar: {
+        $ref: "http://baz.com/api/nodes/test.json#/definitions/bar"
+      },
+    };
+
+    let parser = new $RefParser();
+
+    const schema = await parser.bundle(__dirname, model, {
+      bundle: getDefaultsForOldJsonSchema(),
+    });
+
+    expect(schema).to.equal(parser.schema);
+    expect(schema).to.deep. equal({
+      baz: {
+        $ref: "#/definitions/Test"
+      },
+      bar: {
+        $ref: "#/definitions/Test_Bar"
+      },
+      definitions: {
+        Test: {
+          definitions: {
+            foo: {
+              title: "foo"
+            },
+          },
+        },
+        Test_Bar: {
+          title: "bar",
+        }
       }
     });
   });
