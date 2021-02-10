@@ -585,10 +585,10 @@ describe("Custom bundling roots", () => {
             get: {
               parameters: [
                 {
-                  name: "Book"
+                  $ref: "#/components/parameters/Book"
                 },
                 {
-                  $ref: "#/paths/~1pets/get/parameters/0"
+                  $ref: "#/components/parameters/Book"
                 }
               ],
               responses: {
@@ -617,6 +617,11 @@ describe("Custom bundling roots", () => {
           },
         },
         components: {
+          parameters: {
+            Book: {
+              name: "Book"
+            }
+          },
           schemas: {
             Address: {
               title: "Address"

@@ -10,10 +10,7 @@ module.exports = {
     "/flight/{id}": {
       parameters: [
         {
-          in: "path",
-          name: "id",
-          required: true,
-          type: "number"
+          $ref: "#/parameters/Id"
         }
       ],
       get: {
@@ -192,5 +189,13 @@ module.exports = {
       minLength: 2,
       maxLength: 50
     },
-  }
+  },
+  parameters: {
+    Id: {
+      in: "path",
+      name: "id",
+      required: true,
+      type: "number",
+    },
+  },
 };

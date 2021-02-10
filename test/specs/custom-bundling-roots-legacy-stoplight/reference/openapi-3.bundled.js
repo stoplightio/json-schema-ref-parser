@@ -14,11 +14,8 @@ module.exports = {
     "/flight/{id}": {
       parameters: [
         {
-          in: "path",
-          name: "id",
-          required: true,
-          type: "number"
-        },
+          $ref: "#/components/parameters/Id"
+        }
       ],
       get: {
         operationId: "get-flights",
@@ -62,6 +59,14 @@ module.exports = {
     }
   },
   components: {
+    parameters: {
+      Id: {
+        in: "path",
+        name: "id",
+        required: true,
+        type: "number",
+      },
+    },
     schemas: {
       Airport: {
         definitions: {},
