@@ -607,16 +607,21 @@ describe("Custom bundling roots", () => {
                   }
                 },
                 400: {
-                  title: "Pets"
+                  $ref: "#/components/responses/Pets"
                 },
                 500: {
-                  $ref: "#/paths/~1pets/get/responses/400"
+                  $ref: "#/components/responses/Pets"
                 }
               }
             }
           },
         },
         components: {
+          responses: {
+            Pets: {
+              title: "Pets"
+            }
+          },
           parameters: {
             Book: {
               name: "Book"
