@@ -34,7 +34,7 @@
       "patch": {
         "operationId": "patch-flight-id",
         "requestBody": {
-            "$ref": "./requestBodies/exampleRequestBody.json"
+          "$ref": "./requestBodies/exampleRequestBody.json"
         }
       },
       "post": {
@@ -56,6 +56,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/Flight"
                 }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Remaining": {
+                "$ref": "./headers/X-RateLimit-Remaining.json"
               }
             }
           }

@@ -52,6 +52,11 @@ module.exports = {
                   $ref: "#/components/schemas/Flight"
                 }
               }
+            },
+            headers: {
+              "X-RateLimit-Remaining": {
+                $ref: "#/components/headers/X-RateLimit-Remaining",
+              },
             }
           }
         }
@@ -85,6 +90,15 @@ module.exports = {
         },
         description: "example request body",
         required: true,
+      },
+    },
+    headers: {
+      "X-RateLimit-Remaining": {
+        description: "Request limit per hour",
+        example: 100,
+        schema: {
+          type: "integer",
+        },
       },
     },
     schemas: {
