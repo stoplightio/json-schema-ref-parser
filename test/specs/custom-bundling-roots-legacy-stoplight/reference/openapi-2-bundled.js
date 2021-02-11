@@ -41,7 +41,10 @@ module.exports = {
             schema: {
               $ref: "#/definitions/Flight"
             }
-          }
+          },
+          400: {
+            $ref: "#/responses/ExampleResponse"
+          },
         }
       }
     }
@@ -196,6 +199,22 @@ module.exports = {
       name: "id",
       required: true,
       type: "number",
+    },
+  },
+  responses: {
+    ExampleResponse: {
+      content: {
+        "application/json": {
+          schema: {
+            properties: {
+              id: {
+                type: "string",
+              },
+            },
+          },
+        },
+      },
+      description: "Example response",
     },
   },
 };
