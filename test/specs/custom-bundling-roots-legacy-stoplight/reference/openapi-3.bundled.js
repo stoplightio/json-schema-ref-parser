@@ -55,7 +55,13 @@ module.exports = {
             }
           }
         }
-      }
+      },
+      patch: {
+        operationId: "patch-flight-id",
+        requestBody: {
+          $ref: "#/components/requestBodies/ExampleRequestBody",
+        },
+      },
     }
   },
   components: {
@@ -65,6 +71,20 @@ module.exports = {
         name: "id",
         required: true,
         type: "number",
+      },
+    },
+    requestBodies: {
+      ExampleRequestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              name: "title",
+              type: "string",
+            },
+          },
+        },
+        description: "example request body",
+        required: true,
       },
     },
     schemas: {

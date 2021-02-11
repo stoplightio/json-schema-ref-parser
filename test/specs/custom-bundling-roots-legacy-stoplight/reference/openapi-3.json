@@ -31,6 +31,12 @@
           }
         }
       },
+      "patch": {
+        "operationId": "patch-flight-id",
+        "requestBody": {
+            "$ref": "./requestBodies/exampleRequestBody.json"
+        }
+      },
       "post": {
         "operationId": "post-flight-id",
         "requestBody": {
