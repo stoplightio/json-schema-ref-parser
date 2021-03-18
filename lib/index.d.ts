@@ -241,7 +241,7 @@ declare namespace $RefParser {
        * @param {*} value
        * @param {string} file
        * @param {string|null} hash
-       * @return {string|null}
+       * @returns {string|null}
        */
       generateKey?(value: unknown, file: string, hash: string | null): string | null;
 
@@ -378,6 +378,8 @@ declare namespace $RefParser {
      * See https://apitools.dev/json-schema-ref-parser/docs/refs.html#circular
      */
     public circular: boolean;
+
+    public propertyMap: Record<string, string>;
 
     /**
      * Returns the paths/URLs of all the files in your schema (including the main schema file).
