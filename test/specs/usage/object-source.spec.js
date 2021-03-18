@@ -24,6 +24,7 @@ describe("Usage", () => {
     expect(get(schema, "#/properties/books/oneOf/1")).to.deep.equal({ title: "Book v1 (mid=1)" });
     expect(get(schema, "#/properties/books/oneOf/2")).to.deep.equal({ title: "Book v2" });
 
+    expect(schema).toMatchSnapshot();
     expect(parser.$refs.propertyMap).to.deep.equal({
       "#/properties/books": path.abs("specs/usage/definitions/design-library.json") + "#/definitions/Books",
       "#/properties/books/oneOf/0": "http://jakub.stoplight-local.com:8080/api/v1/projects/jakub/my-project/nodes/reference/book.v1.json?deref=bundle",
