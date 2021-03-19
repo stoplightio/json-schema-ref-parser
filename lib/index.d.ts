@@ -379,6 +379,11 @@ declare namespace $RefParser {
      */
     public circular: boolean;
 
+    /**
+     * The key in the propertyMap is the path where the ref was resolved (aka the parentPath that we talked about),
+     * and its value is the ref (absolute URI with an optional pointer) that was resolved.
+     * It's scoped to a _dereferenced_ or _bundled_ value, not the source document.
+     */
     public propertyMap: Record<string, string>;
 
     /**
