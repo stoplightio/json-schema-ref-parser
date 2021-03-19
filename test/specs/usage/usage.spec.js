@@ -4,7 +4,7 @@ const { expect } = require("chai");
 const $RefParser = require("../../..");
 const path = require("../../utils/path");
 const setupHttpMocks = require("../../utils/setup-http-mocks");
-const { get } = require("../../../lib/bundle/util/object.js");
+const { get } = require("../../../lib/bundle/util/object");
 
 describe("Usage", () => {
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe("Usage", () => {
     });
   });
 
-  it("should track usage of $refs", async () => {
+  it("#dereference should track usage of $refs", async () => {
     let parser = new $RefParser();
     const schema = await parser.dereference(path.rel("specs/usage/definitions/document.json"));
 
