@@ -1,0 +1,13 @@
+title: wooo
+type: object
+properties:
+  id:
+    type: string
+  test:
+    $ref: "#/properties/bar/properties/baz"
+  bar:
+    $ref: "#/properties/foo"
+  foo:
+    properties:
+      baz:
+        type: number
