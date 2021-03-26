@@ -49,11 +49,27 @@ describe("Usage", () => {
 
   it("bundle with no custom roots should track usage of $refs", async () => {
     let parser = new $RefParser();
-    await parser.bundle(path.rel("specs/usage/test.yaml"));
+    await parser.bundle({
+      properties: {
+        baz: {
+          $ref: "#/properties/bar/properties/id"
+        },
+        bar: {
+          $ref: "#/properties/foo"
+        },
+        foo: {
+          properties: {
+            id: {
+              type: "number"
+            }
+          }
+        }
+      }
+    });
 
     expect(parser.$refs.propertyMap).to.deep.equal({
-      "#/properties/bar": path.abs("specs/usage/test.yaml") + "#/properties/foo",
-      "#/properties/test": path.abs("specs/usage/test.yaml") + "#/properties/foo/properties/baz"
+      "#/properties/bar": path.abs("/") + "#/properties/foo",
+      "#/properties/baz": path.abs("/") + "#/properties/foo/properties/id"
     });
   });
 });
