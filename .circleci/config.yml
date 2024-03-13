@@ -39,7 +39,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: << parameters.node-version >>.0
+          node-version: << parameters.node-version >>
           install-yarn: false
           install-npm: true
           npm-version: "9.7.1"
@@ -48,7 +48,7 @@ jobs:
 
   test-browser:
     docker:
-      - image: cimg/node:16.13-browsers
+      - image: cimg/node:18-browsers
     steps:
       - checkout
       - browser-tools/install-browser-tools
@@ -66,6 +66,5 @@ workflows:
               os:
                 - linux
               node-version:
-                - "14.19"
-                - "16.13"
+                - "18.19.1"
       - test-browser
