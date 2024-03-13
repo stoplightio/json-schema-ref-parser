@@ -3,8 +3,6 @@
 const nock = require("nock");
 const { URL } = require("url");
 
-globalThis.fetch = require("node-fetch");
-
 afterEach(() => {
   nock.cleanAll();
 });
