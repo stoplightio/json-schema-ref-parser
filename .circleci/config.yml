@@ -48,7 +48,7 @@ jobs:
 
   test-browser:
     docker:
-      - image: cimg/node:18.19-browsers
+      - image: cimg/node:16.20-browsers
     steps:
       - checkout
       - browser-tools/install-browser-tools
