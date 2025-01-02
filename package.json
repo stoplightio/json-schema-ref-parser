@@ -95,5 +95,8 @@
     "@stoplight/yaml": "^4.0.2",
     "call-me-maybe": "^1.0.1",
     "url": "^0.11.3"
+  },
+  "resolutions": {
+    "cross-spawn": "7.0.5"
   }
 }
